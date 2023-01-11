@@ -3,7 +3,6 @@ module main
 #include "@VMODROOT/vnemonic.h"
 
 #flag @VMODROOT/vnemonic.o
-#flag -g
 
 fn C.mnemonic_from_bytes_en(bytes &u8, len usize) &char
 
