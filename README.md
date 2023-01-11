@@ -1,6 +1,9 @@
 # Vnemonic - Mnemonic in V
 
 ## Build V Package
+```
+v vnemonic.v
+```
 
 ## Build C debug version
 ```
