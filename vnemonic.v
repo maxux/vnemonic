@@ -20,9 +20,9 @@ pub fn parse(mnemonic string) []u8 {
 }
 
 pub fn dumps(buffer []u8) string {
-	aa := C.mnemonic_from_bytes_en(buffer.data, buffer.len)
-	x := unsafe { cstring_to_vstring(aa) }
-	return x
+	str := C.mnemonic_from_bytes_en(buffer.data, buffer.len)
+	clean := unsafe { cstring_to_vstring(str) }
+	return clean
 }
 
 fn main() {
