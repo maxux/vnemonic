@@ -1,4 +1,3 @@
-[translated]
 module main
 
 #include "@VMODROOT/vnemonic.h"
@@ -12,10 +11,10 @@ fn C.mnemonic_to_bytes_en(mnemonic &i8, bytes_out &u8, len usize, written &usize
 
 pub fn parse(mnemonic string) []u8 {
 	buffer := []u8{len: 128}
-	written := 0
+	written := usize(0)
 
 	C.mnemonic_to_bytes_en(mnemonic.str, buffer.data, 128, &written)
-	target := []u8{len: written}
+	mut target := []u8{len: int(written)}
 	copy(mut target, buffer)
 
 	return target
