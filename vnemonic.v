@@ -24,10 +24,7 @@ pub fn parse(mnemonic string) []u8 {
 pub fn dumps(buffer []u8) string {
 	aa := C.mnemonic_from_bytes_en(buffer.data, buffer.len)
 	x := unsafe { cstring_to_vstring(aa) }
-	println(x)
-
-	// return unsafe { tos_clone(str) }
-	return "Hello"
+	return x
 }
 
 fn main() {
