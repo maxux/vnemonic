@@ -145,7 +145,7 @@ static void store_index(size_t bits, unsigned char *bytes_out, size_t n, size_t 
             U8_AT(bytes_out, pos) |= U8_MASK(pos);
 }
 
-char *mnemonic_from_bytes(const struct words *w, const unsigned char *bytes, size_t bytes_len)
+static char *mnemonic_from_bytes(const struct words *w, const unsigned char *bytes, size_t bytes_len)
 {
     size_t total_bits = bytes_len * 8u; /* bits in 'bytes' */
     size_t total_mnemonics = total_bits / w->bits; /* Mnemonics in 'bytes' */
@@ -176,6 +176,10 @@ char *mnemonic_from_bytes(const struct words *w, const unsigned char *bytes, siz
     }
 
     return str;
+}
+
+char *mnemonic_from_bytes_en(const unsigned char *bytes, size_t bytes_len) {
+    return mnemonic_from_bytes(&en_words, bytes, bytes_len);
 }
 
 int mnemonic_to_bytes(const struct words *w, const char *mnemonic,
@@ -217,18 +221,26 @@ cleanup:
     return 0;
 }
 
+int mnemonic_to_bytes_en(const char *mnemonic, unsigned char *bytes_out, size_t len, size_t *written) {
+    return mnemonic_to_bytes(&en_words, mnemonic, bytes_out, len, written);
+}
+
 //
 // test
 //
 
+#ifdef BUILD_DEBUG
 int main() {
+#else
+int vnemonic_test() {
+#endif
     char *mnemo = "turtle soda patrol vacuum turn fault bracket border angry rookie okay anger";
     char buffer[128];
     size_t written = 0;
 
     memset(buffer, 0x00, sizeof(buffer));
 
-    int val = mnemonic_to_bytes(&en_words, mnemo, buffer, sizeof(buffer), &written);
+    int val = mnemonic_to_bytes_en(mnemo, buffer, sizeof(buffer), &written);
     printf("%d %lu\n", val, written);
 
     printf("0x");
@@ -238,7 +250,7 @@ int main() {
 
     printf("\n");
 
-    char *xx = mnemonic_from_bytes(&en_words, buffer, written);
+    char *xx = mnemonic_from_bytes_en(buffer, written);
     printf(">> %s\n", xx);
 
     return 0;
